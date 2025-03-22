@@ -11,13 +11,13 @@ namespace Bookify.Web.Core.ViewModels
         
         [Display (Name = "Author")]
         public int AuthorId { get; set; }
-        public IEnumerable<SelectListItem>? Author { get; set; }
+        public IEnumerable<SelectListItem>? Authors { get; set; }
         
         [MaxLength(100, ErrorMessage = Errors.MaxLength)]
         public string Publisher { get; set; }
 
         [Display(Name = "Publishing Date")]
-        public DateTime PublishingDate { get; set; }
+        public DateTime PublishingDate { get; set; } = DateTime.Now;
         public IFormFile? Image { get; set; }
         [MaxLength(50, ErrorMessage = Errors.MaxLength)]
         public string Hall { get; set; } = null!;

@@ -17,6 +17,20 @@ body {
   margin-bottom: 60px;
 }
 
+
+/* Start Override Theem */
+.form-floating > .form-select {
+    padding-bottom: .25rem;
+}
+.form-check {
+    display: block;
+    min-height: 1.5rem;
+    padding-left: 5rem;
+    margin-bottom: .925rem;
+}
+/* End Override Theem */
+
+
 /* Start Override Bootbox */
 
 .bootbox-close-button {
