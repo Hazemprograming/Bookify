@@ -6,14 +6,17 @@ namespace Bookify.Web.Controllers
 {
     public class BooksController : Controller
     {
+        private readonly IWebHostEnvironment _wepHostEnvironMent;
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private List<string> _allowedExtensions = new() { "jpg",".jpeg",".png" };
-        private int _maxAllowedSize = 2097152;
-        public BooksController(ApplicationDbContext context, IMapper mapper)
+        private List<string> _allowedExtensions = new() { ".jpg",".jpeg",".png" };
+        private int _maxSize = 2097152;
+        public BooksController(ApplicationDbContext context, IMapper mapper
+            , IWebHostEnvironment wepHostEnvironMent)
         {
             _context = context;
             _mapper = mapper;
+            _wepHostEnvironMent = wepHostEnvironMent;
         }
 
         public IActionResult Index()
@@ -35,17 +38,22 @@ namespace Bookify.Web.Controllers
                 
             var book = _mapper.Map<Book>(model);
             if ( model.Image is not null )
-            {  
-                if (_allowedExtensions.Contains(Path.GetExtension(model.Image.FileName)))
-                {
-                    ModelState.AddModelError(nameof(model.Image),Errors.NotAllowedExtensions);
-                    return View("Form", PopulateViewModel(model));
-                }
-                if (model.Image.Length > _maxAllowedSize)
+            {
+                if (_allowedExtentions.Contains(Path.GetExtension(model.Image.FileName)))
                 {
                     ModelState.AddModelError(nameof(model.Image), Errors.MaxSize);
                     return View("Form", PopulateViewModel(model));
                 }
+
+                var ImageName = $"{Guid.NewGuid()}{extension}";
+
+                var path = Path.Combine($"{_wepHostEnvironMent.WebRootPath}/Images/books",ImageName);
+
+                using var streem = System.IO.File.Create(path);
+                
+                model.Image.CopyTo(streem);
+                book.ImageUrl = ImageName;
+
             }
             foreach (var category in model.SelectedCategories)
             {
