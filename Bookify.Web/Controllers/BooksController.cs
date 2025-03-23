@@ -8,8 +8,8 @@ namespace Bookify.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        private List<string> _allowedExtentions = new() { "jpg",".jpeg",".png" };
-        private int _maxLength = 2097152;
+        private List<string> _allowedExtensions = new() { "jpg",".jpeg",".png" };
+        private int _maxAllowedSize = 2097152;
         public BooksController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
@@ -35,10 +35,15 @@ namespace Bookify.Web.Controllers
                 
             var book = _mapper.Map<Book>(model);
             if ( model.Image is not null )
-            {
-                if (_allowedExtentions.Contains(Path.GetExtension(model.Image.FileName)))
+            {  
+                if (_allowedExtensions.Contains(Path.GetExtension(model.Image.FileName)))
                 {
-
+                    ModelState.AddModelError(nameof(model.Image),Errors.NotAllowedExtensions);
+                    return View("Form", PopulateViewModel(model));
+                }
+                if (model.Image.Length > _maxAllowedSize)
+                {
+                    ModelState.AddModelError(nameof(model.Image), Errors.MaxSize);
                     return View("Form", PopulateViewModel(model));
                 }
             }
