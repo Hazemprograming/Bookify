@@ -94,8 +94,12 @@
             <div class="row">
                 <div class="col-5">
                     <div class="mb-5">
+                        <div>
+                            <img id="ImagePreview" src="~/Images/books/no-book.jpg" class="img-thumbnail" alt="Book Image">
+                        </div>
                         <div class="form-floating mb-2">
-                            <input type="file" class="form-control" placeholder="Image" asp-for="Image" />
+                            <input type="file" class="form-control" placeholder="Image" asp-for="Image" accept=".jpg,.jpeg,.png"
+                            onchange="document.getElementById('ImagePreview').src = window.URL.createObjectURL(this.files[0])"/>
                             <label asp-for="Image"></label>
                         </div>
                         <span asp-validation-for="Image" class="text-danger d-block"></span>
