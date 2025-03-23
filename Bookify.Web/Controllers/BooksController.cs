@@ -39,7 +39,7 @@ namespace Bookify.Web.Controllers
             var book = _mapper.Map<Book>(model);
             if ( model.Image is not null )
             {
-                if (_allowedExtentions.Contains(Path.GetExtension(model.Image.FileName)))
+                if (_allowedExtensions.Contains(Path.GetExtension(model.Image.FileName)))
                 {
                     ModelState.AddModelError(nameof(model.Image), Errors.MaxSize);
                     return View("Form", PopulateViewModel(model));
