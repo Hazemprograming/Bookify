@@ -20,6 +20,7 @@ namespace Bookify.Web.Core.ViewModels
         public DateTime PublishingDate { get; set; } = DateTime.Now;
         public IFormFile? Image { get; set; }
         [MaxLength(50, ErrorMessage = Errors.MaxLength)]
+        public string? ImageUrl { get; set; }
         public string Hall { get; set; } = null!;
 
         [Display(Name = "Is Available For Rental")]

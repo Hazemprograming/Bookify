@@ -71,6 +71,17 @@ namespace Bookify.Web.Controllers
 
           return RedirectToAction(nameof(Index));
         }
+        public IActionResult Edit(int Id)
+        {
+            var book = _context.Books.Find(Id);
+            if (book is null)
+            {
+                return NotFound();
+            }
+            var viewModel = _mapper.Map<BookFormViewModel>(book);
+
+            return View("Form", PopulateViewModel(viewModel));
+        }
 
         private BookFormViewModel PopulateViewModel(BookFormViewModel? Model = null)
         {

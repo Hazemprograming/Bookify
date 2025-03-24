@@ -32,6 +32,10 @@
 <div class="card shadow-sm">
     <div class="card-body">
         <form method="post" asp-controller="Books" enctype="multipart/form-data" >
+            @if (Model?.Id > 0)
+            {
+                <input type="hidden" asp-for="Id" />
+            } 
             <div class="row">
                 <div class="col-5">
                     <div class="mb-5">
@@ -95,7 +99,7 @@
                 <div class="col-5">
                     <div class="mb-5">
                         <div>
-                            <img id="ImagePreview" src="~/Images/books/no-book.jpg" class="img-thumbnail" alt="Book Image">
+                            <img id="ImagePreview" src="~/Images/books/ @(Model.ImageUrl is null ? "no-book.jpg" : Model.ImageUrl) " class="img-thumbnail" alt="Book Image">
                         </div>
                         <div class="form-floating mb-2">
                             <input type="file" class="form-control" placeholder="Image" asp-for="Image" accept=".jpg,.jpeg,.png"
