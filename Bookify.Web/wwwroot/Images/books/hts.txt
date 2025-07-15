@@ -1,0 +1,14 @@
+,
+                    "render": function(data , type , row){
+                        return ` <div class="symbol symbol-50px me-3">
+                                      <a href="/Books/Details/${row.id}">
+                                      <div class="sympol-label">
+                                        <img src="${(row.imageThumbnailUrl === null row.imageThumbnailUrl ? '/images/books/no-book.jpg' : row.imageThumbnailUrl)}" class="" alt="">
+                                      </div>
+                                  </div>
+                                    
+                                  <div class="d-flex justify-content-start flex-column">
+                                      <a href="/metronic8/demo1/pages/user-profile/overview.html" class="text-gray-800 fw-bold text-hover-primary mb-1 fs-6">Jane Cooper</a>
+                                      <span class="text-gray-500 fw-semibold d-block fs-7">Monaco</span>
+                                  </div>  `
+                    }

@@ -25,8 +25,12 @@ function showErrorMessage(message = 'Something went wrong!') {
     });
 }
 
-function onModalBegin() {
+function DisabledSubmitButton() {
     $('body :submit').attr('disabled', 'disabled').attr('data-kt-indicator', 'on');
+
+}
+function onModalBegin() {
+    DisabledSubmitButton();
 }
 
 function onModalSuccess(row) {
@@ -144,11 +148,55 @@ var KTDatatables = function () {
 }();
 
 $(document).ready(function () {
+
+    // disabledSubmitButton 
+    $('form').on('submit', function () {
+
+        if ($('.js-tinymce').length > 0) {
+            $('.js-tinymce').each(function () {
+
+                var input = $(this);
+                var content = tinyMCE.get(input.attr('id ')).getContent();
+                $(input).val(content);
+            });
+        }
+
+        var isValid = $(this).valid();
+        if (isValid) { DisabledSubmitButton(); }
+    
+    });
+
+    // TinyMCE 
+    if ( $('.js-tinymce').length > 0 ) {
+        var options = { selector: ".js-tinymce", height: "419" };
+
+        if (KTThemeMode.getMode() === "dark") {
+            options["skin"] = "oxide-dark";
+            options["content_css"] = "dark";
+        }
+    }
+
+    tinymce.init(options);
     //SweetAlert
     var message = $('#Message').text();
     if (message !== '') {
         showSuccessMessage(message);
     }
+
+    //Datepickr
+    $('.js-datepickr').daterangepicker({
+        singleDatePicker: true,
+        autoApply: true,
+        "drops": "auto",
+        maxDate: new Date()
+
+    });    
+    // select2 
+    $('.js-select2').select2();
+    $('.js-select2').on('select2:select', function (e) {
+        var select = $(this);
+        $('form').validate().element('#' + select.attr('id'));
+    });
 
     //DataTables
     KTUtil.onDOMContentLoaded(function () {
