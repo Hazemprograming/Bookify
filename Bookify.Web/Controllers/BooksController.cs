@@ -237,6 +237,22 @@ namespace Bookify.Web.Controllers
             return RedirectToAction(nameof(Details),new {id = book.Id});
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ToggleStatus(int id)
+        {
+            var book = _context.Books.Find(id);
+
+            if (book is null)
+                return NotFound();
+
+            book.IsDeleted = !book.IsDeleted;
+            book.LastUpdate = DateTime.Now;
+
+            _context.SaveChanges();
+
+            return Ok(book.LastUpdate.ToString());
+        }
         public IActionResult AllowItem(BookFormViewModel model)
         {
             var book = _context.Books.SingleOrDefault(b => b.Title == model.Title && b.AuthorId == model.AuthorId);
